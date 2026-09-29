@@ -29,7 +29,7 @@ Scrivi le query SQL per rispondere alle seguenti richieste:
  -- CREATE DATABASE DBVendite;
  
 /*
- CREATE TABLE DBVendite.Vendite (
+CREATE TABLE DBVendite.Vendite (
     id INT,
     prodotto VARCHAR(100),
     categoria VARCHAR(50),
@@ -37,8 +37,9 @@ Scrivi le query SQL per rispondere alle seguenti richieste:
     prezzo_unitario DECIMAL(6,2),
     data_vendita DATE
 );
+*/
 
-
+/*
 INSERT INTO DBVendite.Vendite (id, prodotto, categoria, quantita, prezzo_unitario, data_vendita)
 VALUES
 (1,'Mouse Wireless','Elettronica',3,24.90,'2026-09-01'),
@@ -63,7 +64,48 @@ VALUES
 (20,'Quaderno','Cancelleria',9,3.80,'2026-09-20');
 */
 
+-- DROP TABLE DBVendite.Vendite;
+-- DELETE FROM DBVendite.Vendite;
+
 SELECT * FROM DBVendite.Vendite;
 
+-- TOTALE VENDITE PER CATEGORIA
+SELECT categoria, COUNT(*) AS Totale_Vendite_Categoria
+FROM DBVendite.Vendite
+GROUP BY categoria;
 
+-- VISUALIZZA PER OGNI CATEGORIA IL PREZZO MEDIO PER CATEGORIA
+SELECT categoria, ROUND(AVG(prezzo_unitario),2) AS Prezzo_Medio_Categoria
+FROM DBVendite.Vendite
+GROUP BY categoria;
+
+-- TOTALE QUANTITA PER PRODOTTO
+SELECT prodotto, SUM(Quantita) AS Quantita_Vendite_Prodotto
+FROM DBVendite.Vendite
+GROUP BY prodotto;
+
+-- PREZZO MASSIMO E MINIMO VENDUTO NELLA TABELLA
+SELECT 
+    MAX(prezzo_unitario) AS Prezzo_Massimo,
+    MIN(prezzo_unitario) AS Prezzo_Minimo
+FROM DBVendite.Vendite;
+
+-- NUMERO TOTALE DI RIGHE NELLA TABELLA
+SELECT COUNT(*) AS Numero_Righe
+FROM DBVendite.Vendite;
+
+-- I CINQUE PRODOTTI PIU COSTOSI ORDINATI IN MODO DECRESCENTE RISPETTO AL PREZZO
+SELECT DISTINCT prodotto, prezzo_unitario
+FROM DBVendite.Vendite
+ORDER BY prezzo_unitario DESC
+LIMIT 5; 
+
+-- I 3 PRODOTTI MENO VENDUTI PER QUANTITA TOTALE
+SELECT 
+    prodotto, 
+    SUM(quantita) AS PezziVenduti
+FROM DBVendite.Vendite
+GROUP BY prodotto
+ORDER BY PezziVenduti DESC
+LIMIT 3;
 
