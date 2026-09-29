@@ -38,37 +38,40 @@ VALUES
 (20,'Roberto','Fiore','roberto.fiore@hotmail.com',27,'Ravenna');
 
 
-SELECT * FROM DBVendite.Clienti
+-- SELECT * FROM DBVendite.Clienti
 
 -- DROP TABLE world.Clienti
 
--- 1. Clienti con email su dominio Gmail
+-- LISTA CLIENTI CON EMAIL CON DOMINIO GMAIL
+
+SELECT nome, cognome, email
+FROM DBVendite.Clienti
+WHERE email LIKE '%@gmail.com';
 
 
--- 2. Seleziona tutti i clienti la cui email termina con @gmail.com
+-- CLIENTI CON IL NOME CHE INIZIA PER A
+
+SELECT nome, cognome, email
+FROM DBVendite.Clienti
+WHERE nome LIKE 'A%';
 
 
--- 3. Clienti con nome che inizia con la lettera 'A'
+-- CLIENTI CON COGNOME COMPOSTO DI 5 CARATTERI
+
+SELECT cognome
+FROM DBVendite.Clienti
+WHERE cognome LIKE '_____';
 
 
--- 4. Mostra tutti i clienti il cui nome comincia con la lettera A
+-- CLIENTI CON ETA FRA I 30 E 40
+
+SELECT *
+FROM DBVendite.Clienti
+WHERE eta BETWEEN 30 AND 40;
 
 
--- 5. Clienti con cognome che contiene esattamente 5 lettere
+-- TUTTI I CLIENTI CHE VIVONO IN UNA CITTA CHE CONTIENE ROMA
 
-
--- 6. Mostra tutti i clienti il cui cognome è composto da esattamente 5 caratteri
-
-
--- 7. Clienti con età compresa tra 30 e 40 anni (inclusi)
-
-
--- 8. Elenca i clienti che hanno un'età compresa tra 30 e 40 anni, inclusi gli estremi
-
-
--- 9. Clienti che vivono in città il cui nome contiene "roma"
---    ignorando maiuscole/minuscole
-
-
--- 10. Mostra tutti i clienti che abitano in una città il cui nome
---     contiene la stringa "roma", indipendentemente da maiuscole o minuscole
+SELECT *
+FROM Clienti
+WHERE citta LIKE '%roma%';
