@@ -47,3 +47,80 @@ SELECT
     SUM(Population) AS TotaleAbitantimondo
 FROM country;
 
+-- ESERCIZIO SQL WILDCARD CHARACTERS, LIKE, %, __
+SELECT
+    name 
+FROM world.city
+WHERE Countrycode = 'USA'
+    AND name LIKE 'a%' or '%an'; -- Inizia con A o finisce come AN
+
+-- ESERCIZIO SQL IN
+SELECT
+    name,
+    continent,
+    population
+FROM world.country
+WHERE code IN ('ITA', 'FRA','DEU');
+
+SELECT
+    name,
+    CountryCode
+FROM world.city
+WHERE CountryCode IN ('ITA', 'FRA','ITA')
+LIMIT 6;
+
+-- ESERCIZIO SQL NOT
+
+SELECT
+    Name,
+    CountryCode
+FROM world.city
+WHERE CountryCode NOT IN ('ITA', 'FRA','ITA')
+LIMIT 6;
+
+-- ESERCIZIO BETWEEN NUMERICO
+
+SELECT
+    Name,
+    Population
+FROM world.city
+WHERE CountryCode = 'ITA'
+    AND population BETWEEN 200000 AND 500000
+ORDER BY Population DESC;
+
+-- ESERCIZIO BETWEEN DATE
+
+SELECT
+    Name,
+    IndepYear
+FROM world.country
+WHERE IndepYear BETWEEN 1900 AND 1950
+ORDER BY IndepYear ASC;
+
+-- ESERCIZIO BETWEEN DATE
+
+SELECT
+    Name,
+    IndepYear
+FROM world.country
+WHERE IndepYear BETWEEN 1900 AND 1950
+ORDER BY IndepYear ASC;
+
+
+USE world;
+
+CREATE TEMPORARY TABLE demo_ordini (
+    id INT,
+    OrderDate DATE
+);
+
+INSERT INTO demo_ordini VALUES
+(1, '1996-07-04'),
+(2, '1996-07-15'),
+(3, '1996-08-01');
+
+SELECT *
+FROM demo_ordini
+WHERE OrderDate BETWEEN '1996-07-01' AND '1996-07-31';
+
+
