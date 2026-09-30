@@ -31,6 +31,25 @@
 # Se il PIN è corretto, stampa "Telefono sbloccato!" e interrompi il programma.
 # Se è sbagliato, stampa "PIN errato. Riprova." e chiedilo di nuovo.
 
+
+# Fissare il PIN di sblocco PIN_Corretto = .... e contatore tentativi
+
+# Prendere in input un numero (stringa) e memorizzarlo in PIN
+
+# Vedere quanto è lunga la string PIN e confrontarla con la lunghezza di PIN_Corretto
+
+# Se è OK vado avanti, altrimenti dico all'utente che ha sbagliato
+
+# Caso errato: ripropongo l'input
+
+# Caso giusto: controllo il PIN carattere per carattere
+
+# Caso errato: esco e dico all'utente che ha sbagliato max 3 volte
+
+# Caso giusto: vado avanti
+
+# Telefono sbloccato
+
 PIN_Corretto = '12345678'
 Lun_Corretto = 8
 
