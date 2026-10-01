@@ -24,7 +24,7 @@ Scenario: Devi creare un programma per gestire una lista della spesa.
 """
 lista_spesa = [] # Creo una lista vuota
 
-while True: # Inizio il ciclo
+while (True): # Inizio il ciclo
   
     Prodotto = input(f"Prodotto numero {len(lista_spesa) + 1}: ").strip() # Chiedo cosa vuole comprare e tolgo eventuali spazi
 
