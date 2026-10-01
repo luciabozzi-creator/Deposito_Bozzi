@@ -1,73 +1,54 @@
 /*
 ESERCIZIO - REPORT REPARTO VENDITE
-
 Devi realizzare un report completo per il reparto vendite,
 che soddisfi tutte le seguenti condizioni usando correttamente
 e separatamente i tre tipi di JOIN:
 
 
 1. CLIENTI ATTIVI
-
 Elenca i clienti attivi, cioè quelli che hanno effettuato
 almeno un ordine, mostrando per ciascuno:
-
 - Nome del cliente
 - Totale ordini effettuati
 - Somma totale degli importi spesi
 
 
 2. CLIENTI INATTIVI
-
 Elenca i clienti inattivi, cioè quelli che non hanno
 mai effettuato ordini, mostrando solo:
-
 - Nome del cliente
 - Città di residenza
 
 
 3. ORDINI ORFANI
-
 Individua gli ordini orfani, cioè ordini presenti in tabella
 ma senza un cliente valido associato
 (es. cliente cancellato), e mostra:
-
 - ID dell'ordine
 - Data dell'ordine
 - Importo
 - Cliente = NULL
 
-
 REQUISITI TECNICI:
-
 - Per il punto 1: usa INNER JOIN.
 - Per il punto 2: usa LEFT JOIN con condizione su IS NULL.
 - Per il punto 3: usa RIGHT JOIN con condizione su IS NULL.
-
 */
 
--- ============================================
 -- CREAZIONE DATABASE
--- ============================================
 
-CREATE DATABASE IF NOT EXISTS DBReportVendite;
-
+-- CREATE DATABASE DBReportVendite;
 USE DBReportVendite;
 
-
--- ============================================
 -- CREAZIONE TABELLA CLIENTI
--- ============================================
-
+/*
 CREATE TABLE Clienti (
     id INT PRIMARY KEY,
     nome VARCHAR(100),
     citta VARCHAR(100)
 );
 
-
--- ============================================
 -- INSERIMENTO CLIENTI
--- ============================================
 
 INSERT INTO Clienti (id, nome, citta)
 VALUES
@@ -92,10 +73,7 @@ VALUES
 (19, 'Anna', 'Palermo'),
 (20, 'Roberto', 'Trieste');
 
-
--- ============================================
 -- CREAZIONE TABELLA ORDINI
--- ============================================
 
 CREATE TABLE Ordini (
     id INT PRIMARY KEY,
@@ -105,9 +83,7 @@ CREATE TABLE Ordini (
 );
 
 
--- ============================================
 -- INSERIMENTO ORDINI
--- ============================================
 
 INSERT INTO Ordini (id, id_cliente, data_ordine, importo)
 VALUES
@@ -142,11 +118,84 @@ VALUES
 (19, 4, '2026-09-26', 70.00),
 (20, 6, '2026-09-27', 215.00);
 
+*/
 
--- ============================================
--- CONTROLLO DATI
--- ============================================
 
-SELECT * FROM Clienti;
+-- SELECT * FROM Clienti;
+-- SELECT * FROM Ordini;
 
-SELECT * FROM Ordini;
+-- ESERCIZIO: REPORT REPARTO VENDITE
+
+-- Devi realizzare un report completo per il reparto vendite,
+-- che soddisfi tutte le seguenti condizioni usando correttamente
+-- e separatamente i tre tipi di JOIN.
+
+
+-- PUNTO 1 - CLIENTI ATTIVI
+
+-- Elenca i clienti attivi, cioè quelli che hanno effettuato
+-- almeno un ordine, mostrando per ciascuno:
+
+-- Nome del cliente
+-- Totale ordini effettuati
+-- Somma totale degli importi spesi
+
+-- Requisito tecnico:
+-- usare INNER JOIN.
+
+/*
+SELECT 
+    Clienti.nome,
+    SUM(Ordini.importo) AS Totale_Importi_Spesi,
+    COUNT(Ordini.id) AS Numero_ordini_per_ciascun_cliente
+FROM Clienti
+INNER JOIN Ordini
+    ON Clienti.id = Ordini.id_cliente
+ GROUP BY Clienti.nome;
+*/
+
+
+-- PUNTO 2 - CLIENTI INATTIVI
+
+-- Elenca i clienti inattivi, cioè quelli che non hanno
+-- mai effettuato ordini, mostrando solo:
+
+-- Nome del cliente
+-- Città di residenza
+
+-- Requisito tecnico:
+-- usare LEFT JOIN con condizione su IS NULL.
+/*
+SELECT 
+    Clienti.nome,
+    Clienti.citta,
+    Ordini.importo
+FROM Clienti
+LEFT JOIN Ordini
+    ON Clienti.id = Ordini.id_cliente
+WHERE Ordini.importo IS NULL;
+*/
+
+-- PUNTO 3 - ORDINI ORFANI
+
+-- Individua gli ordini orfani, cioè ordini presenti in tabella
+-- ma senza un cliente valido associato
+-- (es. cliente cancellato), e mostra:
+
+-- ID dell'ordine
+-- Data dell'ordine
+-- Importo
+-- Cliente = NULL
+
+-- Requisito tecnico:
+-- usare RIGHT JOIN con condizione su IS NULL.
+
+SELECT 
+    Clienti.nome,
+    Ordini.id,
+    Ordini.data_ordine,
+    Ordini.importo
+FROM Clienti
+RIGHT JOIN Ordini
+    ON Clienti.id = Ordini.id_cliente
+WHERE Clienti.nome IS NULL;
