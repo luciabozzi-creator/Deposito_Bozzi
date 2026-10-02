@@ -35,82 +35,155 @@ materie_docenti = (
     ("ITALIANO", "VERDI")
 )
 
+
 # 2 Creo una lista vuota chiamata registro_voti
 
 registro_voti = []
 
-# 3 Chiedo all'utente il nome dello studente.
-nome_studente = input("Inserisci il nome dello studente: ")
-nome_studente = nome_studente.upper()
 
-# 4 Controllo se l'utente ha scritto "fine":
+# Inizio il ciclo di inserimento degli studenti
+
+while True:
+
+# 3 Chiedo all'utente il nome dello studente
+
+    nome_studente = input("Inserisci il nome dello studente: ")
+    nome_studente = nome_studente.upper()
+
+
+# 4 Controllo se l'utente ha scritto "FINE":
 # - Se SÌ -> termino l'inserimento e passo al resoconto finale
 # - Se NO -> continuo
 
-if nome_studente == "FINE":
-    break
+    if nome_studente == "FINE":
+        break
+
 
 # 5 Chiedo la classe dello studente
-classe = input("Inserisci la classe dello studente: ")
-classe = classe.upper()
+
+    classe = input("Inserisci la classe dello studente: ")
+    classe = classe.upper()
+
 
 # 6 Controllo che la classe abbia 2 caratteri:
 # - Se NO -> mostro un errore e richiedo la classe
 # - Se SÌ -> continuo
 
-while len(classe) != 2:
-    print("Errore: la classe deve avere 2 caratteri")
-    classe = input("Inserisci nuovamente la classe: ")
+    while len(classe) != 2:
+        print("Errore: la classe deve avere 2 caratteri")
+        classe = input("Inserisci nuovamente la classe: ")
+        classe = classe.upper()
+
 
 # 7 Chiedo la materia
 
-materia = input("Inserisci la materia: ")
-materia = materia.upper()
+    materia = input("Inserisci la materia: ")
+    materia = materia.upper()
+
 
 # 8 Controllo se la materia è presente nella tupla delle materie:
-# - Se NO -> mostro un errore, mostro le materie disponibili e richiedo la materia
+# - Se NO -> mostro un errore, mostro le materie disponibili
+#            e richiedo la materia
 # - Se SÌ -> continuo
 
-materia_valida = False
+    materia_valida = False
 
-for elemento in materie_docenti:
-    if materia == elemento[0]:
-        materia_valida = True
+    while materia_valida == False:
+
+        for elemento in materie_docenti:
+            if materia == elemento[0]:
+                materia_valida = True
+
+        if materia_valida == False:
+            print("Errore: materia non disponibile")
+            print("Materie disponibili:")
+
+            for elemento in materie_docenti:
+                print(elemento[0])
+
+            materia = input("Inserisci nuovamente la materia: ")
+            materia = materia.upper()
+
 
 # 9 Chiedo il voto
 
-voto = input("Inserisci il voto: ")
+    voto = input("Inserisci il voto: ")
 
-# 10 Controllo che il voto sia un numero:
+
+# 10 Controllo che il voto sia formato da caratteri numerici:
 # - Se vengono inserite lettere -> mostro un errore e richiedo il voto
 # - Se è un numero -> continuo
 
-voto_valido = False
+    caratteri_numerici = "0123456789."
 
-while voto_valido == False:
-    voto = input("Inserisci il voto: ")
-else:
-    print("Errore: il voto deve essere un numero")
+    voto_valido = False
+
+    while voto_valido == False:
+
+        voto_valido = True
+
+        for carattere in voto:
+            if carattere not in caratteri_numerici:
+                voto_valido = False
+
+        if voto_valido == False:
+            print("Errore: il voto deve essere un numero")
+            voto = input("Inserisci nuovamente il voto: ")
+
+
+# Converto il voto in un numero decimale
+
+    voto = float(voto)
+
 
 # 11 Controllo che il voto sia compreso tra 2 e 10:
 # - Se NO -> mostro un errore e richiedo il voto
 # - Se SÌ -> continuo
 
+    while voto < 2 or voto > 10:
+        print("Errore: il voto deve essere compreso tra 2 e 10")
+        voto = float(input("Inserisci nuovamente il voto: "))
 
 
+# 12 Creo una tupla con:
+# (Nome_Alunno, Classe, Materia, Voto)
+# Aggiungo la tupla alla lista registro_voti
 
-# 12 Creo una tupla con: (Nome_Alunno, Classe, Materia, Voto)
-#Aggiungo la tupla alla lista registro_voti
+    dati_studente = (nome_studente, classe, materia, voto)
+    registro_voti.append(dati_studente)
 
-# 13 Torno allo STEP 3 e chiedo il nome di un nuovo studente
 
-# 14 Quando l'utente scrive "fine", termino l'inserimento e uso un ciclo for per stampare tutti i voti registrati
+# Finito l'inserimento, il ciclo while True ricomincia
+# automaticamente chiedendo un nuovo studente
+
+
+# 14 Quando l'utente scrive "FINE", termino l'inserimento
+# e uso un ciclo for per stampare tutti i voti registrati
+
+for dati_studente in registro_voti:
+    print(dati_studente)
+
 
 # 15 Calcolo la somma di tutti i voti
 
-# 16 Calcolo la media generale: media generale = somma dei voti / numero dei voti
+somma_voti = 0
 
-# 17 Stampo la media generale della scuola.
+for elemento in registro_voti:
+    somma_voti += elemento[3]
 
-# 18 FINE
+
+# 16 Calcolo la media generale:
+# media generale = somma dei voti / numero dei voti
+
+media_generale = somma_voti / len(registro_voti)
+
+
+# 17 Stampo la media generale della scuola
+
+for elemento in registro_voti:
+    print(elemento)
+
+print(f"Media generale della scuola: {media_generale}")
+
+
 
