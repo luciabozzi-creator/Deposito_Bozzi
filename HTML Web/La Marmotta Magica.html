@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Marmotta Magica di Luci</title>
+  <style>
+    :root {
+      --bg1: #7c3aed;
+      --bg2: #ec4899;
+      --card: rgba(255, 255, 255, 0.18);
+      --card-border: rgba(255, 255, 255, 0.25);
+      --text: #fff;
+      --accent: #fdf2f8;
+      --button1: #fef3c7;
+      --button2: #fce7f3;
+      --shadow: rgba(76, 29, 149, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    .contenitore {
+      width: min(92vw, 720px);
+      padding: 2rem 1.5rem 1.5rem;
+      border-radius: 36px;
+      backdrop-filter: blur(12px);
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 24px 60px var(--shadow);
+      text-align: center;
+    }
+
+    .marmotta {
+      font-size: clamp(4rem, 10vw, 8rem);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
+    }
+
+    h1 {
+      margin: 0 0 1.5rem;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      letter-spacing: 0.03em;
+    }
+
+    .previsione {
+      min-height: 96px;
+      display: grid;
+      place-items: center;
+      margin: 1.5rem auto 1.2rem;
+      padding: 1rem 1.2rem;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(18px) scale(0.96);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .previsione.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      animation: pulseGlow 0.8s ease;
+    }
+
+    .bottoni {
+      display: flex;
+      justify-content: center;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 0.95rem 1.6rem;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    button:hover {
+      transform: translateY(-2px) scale(1.02);
+      filter: brightness(1.02);
+    }
+
+    button:active {
+      transform: translateY(0) scale(0.99);
+    }
+
+    #scopri {
+      background: linear-gradient(135deg, var(--button1), var(--button2));
+      color: #4c1d95;
+    }
+
+    #ricomincia {
+      background: rgba(255, 255, 255, 0.16);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .contatore {
+      margin-top: 1.2rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 rgba(255,255,255,0); }
+      40% { box-shadow: 0 0 32px rgba(255,255,255,0.4); }
+      100% { box-shadow: 0 0 0 rgba(255,255,255,0); }
+    }
+  </style>
+</head>
+<body>
+  <main class="contenitore">
+    <div class="marmotta" aria-label="marmotta">🦫</div>
+    <h1>La Marmotta Magica di Luci</h1>
+
+    <div id="previsione" class="previsione" aria-live="polite">
+      Premi il bottone per scoprire la tua fortuna!
+    </div>
+
+    <div class="bottoni">
+      <button id="scopri" type="button">Scopri la tua fortuna 🔮</button>
+      <button id="ricomincia" type="button">Ricomincia</button>
+    </div>
+
+    <p class="contatore">Previsioni richieste: <span id="conteggio">0</span></p>
+  </main>
+
+  <script>
+    const frasi = [
+      'La fortuna ti sorride: oggi è il giorno perfetto per fare il primo passo verso il tuo sogno!',
+      'Una piccola decisione oggi aprirà una grande opportunità domani.',
+      'Ti aspetta un momento di grande creatività: lascia correre la tua fantasia!',
+      'Le tue idee sono più brillanti di quanto pensi: condividile senza paura.',
+      'Una bella sorpresa ti sta già aspettando dietro l’angolo.',
+      'Oggi le energie positive ti aiutano a trasformare un pensiero in realtà.',
+      'Un nuovo incontro porterà entusiasmo, allegria e nuove prospettive.',
+      'In ogni piccolo gesto c’è un seme di grande successo: prosegui!',
+      'La tua perseveranza sta già preparando il terreno per un grande traguardo.',
+      'Ti attende una giornata piena di sorprese felici e gesti gentili.',
+      'Sei più forte di quanto credi: anche il tuo passo oggi ha magia.',
+      'Una buona notizia arriva proprio quando meno te l’aspetti.',
+      'La tua curiosità ti porterà verso un percorso pieno di meraviglie.',
+      'Le tue qualità speciali stanno brillando: lascia che si vedano.',
+      'Un momento di pausa oggi riporterà chiarezza e nuovi colori alla tua giornata.',
+      'Sarai fonte di energia e ottimismo per chi ti sta vicino.',
+      'Proprio ora stai costruendo un futuro più luminoso e pieno di possibilità.',
+      'La fortuna ama chi continua a credere in sé stesso con leggerezza.'
+    ];
+
+    const previsione = document.querySelector('#previsione');
+    const bottone = document.querySelector('#scopri');
+    const ricomincia = document.querySelector('#ricomincia');
+    const conteggio = document.querySelector('#conteggio');
+
+    let richieste = 0;
+
+    function mostraFortuna() {
+      const frase = frasi[Math.floor(Math.random() * frasi.length)];
+      previsione.textContent = frase;
+      previsione.classList.remove('show');
+      void previsione.offsetWidth;
+      previsione.classList.add('show');
+      richieste += 1;
+      conteggio.textContent = richieste;
+    }
+
+    function resetFortuna() {
+      richieste = 0;
+      conteggio.textContent = richieste;
+      previsione.textContent = 'Premi il bottone per scoprire la tua fortuna!';
+      previsione.classList.remove('show');
+      void previsione.offsetWidth;
+    }
+
+    bottone.addEventListener('click', mostraFortuna);
+    ricomincia.addEventListener('click', resetFortuna);
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ciao Luci! 🦫</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #7c3aed, #db2777);
+      transition: background 0.5s ease;
+    }
+    main { text-align: center; padding: 2rem; }
+    h1 { font-size: clamp(2rem, 6vw, 4rem); margin: 0 0 1.5rem; }
+    .bottoni {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.9rem 1.4rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #312e81;
+      background: #fff;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
+    }
+    button:hover { transform: translateY(-2px); }
+    #contatore {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Ciao Luci! 🦫</h1>
+    <div class="bottoni">
+      <button id="cambiaColore">Cambia colore dello sfondo</button>
+      <button id="ripristinaColore">Ripristina</button>
+    </div>
+    <p id="contatore">Clic effettuati: <span id="conteggio">0</span></p>
+  </main>
+  <script>
+    const colori = [
+      'linear-gradient(135deg, #7c3aed, #db2777)',
+      'linear-gradient(135deg, #0891b2, #2563eb)',
+      'linear-gradient(135deg, #16a34a, #ca8a04)',
+      'linear-gradient(135deg, #ea580c, #be123c)'
+    ];
+    const coloreIniziale = colori[0];
+    let indice = 0;
+    let clic = 0;
+    const pulsante = document.querySelector('#cambiaColore');
+    const ripristina = document.querySelector('#ripristinaColore');
+    const conteggio = document.querySelector('#conteggio');
+
+    pulsante.addEventListener('click', () => {
+      indice = (indice + 1) % colori.length;
+      document.body.style.background = colori[indice];
+      clic += 1;
+      conteggio.textContent = clic;
+    });
+
+    ripristina.addEventListener('click', () => {
+      indice = 0;
+      clic = 0;
+      document.body.style.background = coloreIniziale;
+      conteggio.textContent = clic;
+    });
+  </script>
+</body>
+</html>
