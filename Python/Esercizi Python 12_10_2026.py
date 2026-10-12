@@ -99,12 +99,7 @@ def calcola_inventario():
         quantita = inventario[codice]["quantita"]
         valore_prodotto = prezzo * quantita
         print()
-        print(
-            "Codice", codice,
-            "- Nome", nome,
-            "- Prezzo", prezzo,
-            "- Quantità", quantita,
-            "- Totale", valore_prodotto)
+        print("Codice", codice, "- Nome", nome, "- Prezzo", prezzo, "- Quantità", quantita, "- Totale", valore_prodotto)
 
         totale = totale + valore_prodotto
     print()
@@ -121,11 +116,7 @@ def mostra_inventario():
             nome = inventario[codice]["nome"]
             prezzo = inventario[codice]["prezzo"]
             quantita = inventario[codice]["quantita"]
-            print(
-                "Codice", codice,
-                "- Nome", nome,
-                "- Prezzo", prezzo,
-                "- Quantità", quantita)
+            print("Codice", codice, "- Nome", nome, "- Prezzo", prezzo, "- Quantità", quantita)
 
 
 # Dizionario che contiene i prodotti del negozio
