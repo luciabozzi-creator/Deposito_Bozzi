@@ -119,14 +119,6 @@ def mostra_inventario():
             quantita = inventario[codice]["quantita"]
             print("Codice", codice, "- Nome", nome, "- Prezzo", prezzo, "- Quantità", quantita)
 
-# La funzione consente di leggere prodotti importati da un file di testo
-
-def importa_inventario():
-    
-    nome_file = open("mio_file.txt", 'r')
-    contenuto = nome_file.read()
-    print (contenuto)
-
 # La funzione importa i prodotti da un file di testo
 
 def importa_inventario():
