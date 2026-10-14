@@ -1,0 +1,7 @@
+descrizione prezzo quantità
+trapano 50.0 2
+lima 5.2 3
+chiodi 0.3 1000
+viti 0.4 2000
+martello 12.0 8
+cacciavite 3.5 11

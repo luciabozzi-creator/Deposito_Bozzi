@@ -23,6 +23,7 @@ def menu():
     print("4. Modifica la quantità di un prodotto")
     print("5. Calcola il totale dell'inventario")
     print("6. Mostra tutto l'inventario")
+    print("7. Importa inventario da txt")
     print("0. Esci")
 
 
@@ -118,6 +119,68 @@ def mostra_inventario():
             quantita = inventario[codice]["quantita"]
             print("Codice", codice, "- Nome", nome, "- Prezzo", prezzo, "- Quantità", quantita)
 
+# La funzione consente di leggere prodotti importati da un file di testo
+
+def importa_inventario():
+    
+    nome_file = open("mio_file.txt", 'r')
+    contenuto = nome_file.read()
+    print (contenuto)
+
+# La funzione importa i prodotti da un file di testo
+
+def importa_inventario():
+
+# Apro il file in modalità lettura
+    nome_file = open("mio_file.txt", "r")
+
+# Salto la prima riga che contiene le intestazioni
+    nome_file.readline()
+
+# Leggo tutto il contenuto del file
+    contenuto = nome_file.read()
+    nome_file.close()
+
+# Inizializzo il codice del prodotto come stringa
+    codice = "1"
+
+# Ripeto il ciclo finché ci sono prodotti da leggere (non ci sono piu spazi o a capo)
+    while contenuto.strip() != "":
+
+# Individuo la posizione del primo e del secondo spazio
+        primo_spazio = contenuto.find(" ")
+        secondo_spazio = contenuto.find(" ", primo_spazio + 1)
+
+# Individuo la posizione del primo a capo
+        primo_acapo = contenuto.find("\n")
+
+# Estraggo il nome del prodotto
+        nome = contenuto[:primo_spazio]
+
+# Estraggo il prezzo e lo converto in numero decimale
+        prezzo = float(contenuto[primo_spazio + 1:secondo_spazio])
+
+# Estraggo la quantità e la converto in numero intero
+        quantita = int(contenuto[secondo_spazio + 1:primo_acapo])
+
+# Se il codice esiste già, lo incremento di uno
+        while codice in inventario:
+            codice = str(int(codice) + 1)
+
+# Inserisco il prodotto nel dizionario inventario
+        inventario[codice] = {"nome": nome, "prezzo": prezzo, "quantita": quantita}
+
+# Incremento il codice per il prodotto successivo
+        codice = str(int(codice) + 1)
+
+# Elimino dal contenuto la parte del prodotto appena letto
+        contenuto = contenuto[primo_acapo + 1:]
+
+# Comunico che l'importazione è terminata
+    print("Inventario importato correttamente!")
+
+# Visualizzo tutti i prodotti presenti nell'inventario
+    mostra_inventario()
 
 # Dizionario che contiene i prodotti del negozio
 # Inizialmente contiene tre prodotti di esempio
@@ -166,7 +229,13 @@ while True:
 
     elif scelta == "6":
         mostra_inventario()
+        
+    # 7. Importa inventario
 
+    elif scelta == "7":
+        importa_inventario()    
+        
+        
     # 0. Esci dal programma
 
     elif scelta == "0":
