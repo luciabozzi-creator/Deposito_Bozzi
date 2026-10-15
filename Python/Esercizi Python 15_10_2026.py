@@ -184,9 +184,80 @@ def importa_inventario():
     
     
 def esporta_inventario():
+
+# Apro il file di input in modalità lettura
+    nome_file = open("mio_file.txt", "r")
+
+# Salto la prima riga che contiene le intestazioni
+    nome_file.readline()
+
+# Leggo tutto il contenuto del file
+    contenuto = nome_file.read()
+    nome_file.close()
+
+# Inizializzo il codice del prodotto come stringa
+    codice = "1"
+
+# Ripeto il ciclo finché ci sono prodotti da leggere
+    while contenuto.strip() != "":
+
+# Individuo la posizione del primo e del secondo spazio
+        primo_spazio = contenuto.find(" ")
+        secondo_spazio = contenuto.find(" ", primo_spazio + 1)
+
+# Individuo la posizione del primo a capo
+        primo_acapo = contenuto.find("\n")
+
+# Se non trovo un a capo, sono arrivata all'ultima riga
+        if primo_acapo == -1:
+            primo_acapo = len(contenuto)
+
+# Estraggo il nome del prodotto
+        nome = contenuto[:primo_spazio]
+
+# Estraggo il prezzo e lo converto in numero decimale
+        prezzo = float(contenuto[primo_spazio + 1:secondo_spazio])
+
+# Estraggo la quantità e la converto in numero intero
+        quantita = int(contenuto[secondo_spazio + 1:primo_acapo])
+
+# Controllo se il prodotto è già presente nell'inventario
+        duplicato = False
+
+        for codice_esistente in inventario:
+
+            if inventario[codice_esistente]["nome"] == nome:
+                duplicato = True
+                break
+
+# Se il prodotto non è presente, lo aggiungo
+        if duplicato == False:
+
+# Cerco un codice prodotto disponibile
+            while codice in inventario:
+                codice = str(int(codice) + 1)
+
+# Inserisco il prodotto nel dizionario inventario
+            inventario[codice] = {"nome": nome, "prezzo": prezzo, "quantita": quantita}
+
+# Incremento il codice per il prodotto successivo
+            codice = str(int(codice) + 1)
+
+# Elimino la riga appena letta
+        if primo_acapo == len(contenuto):
+            contenuto = ""
+        else:
+            contenuto = contenuto[primo_acapo + 1:]
+
+# Visualizzo tutti i prodotti presenti nell'inventario
     mostra_inventario()
 
-# Apro il file in modalità scrittura
+# Controllo se l'inventario è vuoto
+    if len(inventario) == 0:
+        print("L'inventario è vuoto! Impossibile esportare.")
+        return
+
+# Apro il file di esportazione in modalità scrittura
     nome_file = open("inventario_esportato.txt", "w")
 
 # Scrivo la prima riga con le intestazioni
@@ -199,16 +270,17 @@ def esporta_inventario():
         prezzo = inventario[codice]["prezzo"]
         quantita = inventario[codice]["quantita"]
 
-        # Creo la riga da scrivere nel file
+# Creo la riga da scrivere nel file
         riga = nome + " " + str(prezzo) + " " + str(quantita) + "\n"
 
-        # Scrivo la riga nel file
+# Scrivo la riga nel file
         nome_file.write(riga)
 
-    # Chiudo il file
+# Chiudo il file
     nome_file.close()
 
-    print("Inventario esportato correttamente!")    
+# Comunico che l'esportazione è terminata
+    print("Inventario esportato correttamente!")
    
 
 # Dizionario che contiene i prodotti del negozio
