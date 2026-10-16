@@ -69,7 +69,7 @@ cur.executemany(""" INSERT INTO ordini (cliente_id, importo) VALUES (?, ?) """, 
 # Salvo le tabelle e i dati nel database
 conn.commit()
 
-# Calcolo il totale speso da ogni cliente con JOIN, SUM e GROUP BY
+# Calcolo il totale speso per ogni cliente con JOIN, SUM e GROUP BY
 cur.execute("""
 
 SELECT
@@ -83,15 +83,15 @@ INNER JOIN ordini
     ON clienti.id = ordini.cliente_id
 
 GROUP BY clienti.id, clienti.nome, clienti.citta
-ORDER BY totale_speso DESC
 
 """)
 
 # Leggo tutte le righe restituite dalla SELECT
 report_clienti = cur.fetchall()
 
-# Stampo il totale speso da ogni cliente
-print("Totale speso da ogni cliente:")
+# Stampo il report
+print("REPORT CLIENTI:")
+print()
 
 for record in report_clienti:
     print(record["nome"], record["totale_speso"])
